@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StarWars</title>
+
+    <style>
+      #container {
+        margin-top: 250px;
+        border: 2px solid red;
+        width: 300px;
+        margin-left: 630px;
+        height: 300px;
+
+      }
+
+      .details{
+        margin: 2%;
+        padding: 2%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <h1 style="text-align: center">All Details</h1>
+      <div id="details" style="text-align: center;"">
+        <div style="padding:2%" id="name"></div>
+        <div style="padding:2%" id="eye"></div>
+
+        <div style="padding:2%" id="hair"></div>
+
+        <div style="padding:2%" id="mass"></div>
+
+        <button style="padding: 3%; margin-top: 2%;" onclick="goback()">back to home</button>
+      </div>
+    </div>
+  </body>
+</html>
+<script>
+  let char_name = localStorage.getItem("name");
+  document.getElementById("name").innerHTML = "Name:" + ":  " + char_name;
+
+  let char_eyeColor = localStorage.getItem("eye_color");
+  document.getElementById("eye").innerText =
+    "eye_color" + ":  " + char_eyeColor;
+
+  let char_hair = localStorage.getItem("hair");
+  document.getElementById("hair").innerHTML = "Hair_color" + ":  " + char_hair;
+
+  let char_mass = localStorage.getItem("mass");
+  document.getElementById("mass").innerHTML = "mass" + ":  " + char_mass;
+
+  function goback() {
+    window.location.href = "Starwar.html";
+  }
+</script>
