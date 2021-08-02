@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StarWars</title>
+
+    <style>
+      #movies::-webkit-scrollbar {
+        width: 0.5em;
+      }
+
+      #movies::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+      }
+
+      #movies::-webkit-scrollbar-thumb {
+        background-color: darkgrey;
+        outline: 0.5px solid slategrey;
+      }
+      input {
+        width: 450px;
+        margin-left: 530px;
+        border-radius: 10px;
+        height: 50px;
+        font-size: 16px;
+        background-color: #212121;
+        border: none;
+        border-bottom: none;
+        color: white;
+        padding: 0 15px;
+      }
+      #movies {
+        height: 300px;
+        width: 481px;
+        margin-left: 530px;
+
+        border-top: none;
+        overflow: scroll;
+        border-radius: 10px;
+
+        overflow-y: auto;
+
+        margin-bottom: 10px;
+      }
+
+      #main {
+        margin-top: 100px;
+      }
+
+      #chargender {
+        padding: 1%;
+        margin: 1%;
+      }
+
+      #charname {
+        padding: 1%;
+        margin: 1%;
+        cursor: pointer;
+      }
+
+      #charname1 {
+        padding: 1%;
+        margin: 1%;
+        cursor: pointer;
+      }
+
+      #charname:hover {
+        color: yellow;
+      }
+
+      #movies div {
+        display: block;
+        padding: 1%;
+        margin: 1%;
+        color: white;
+      }
+      .logo {
+        width: 50%;
+        height: 200px;
+
+        margin-left: 575px;
+      }
+
+      #starwarsimg {
+        width: 50%;
+        height: 180px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      .modal-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 100vw;
+        opacity: 0;
+        pointer-events: none;
+        background-color: rgba(0, 0, 0, 0.3);
+      }
+
+      #modal {
+        background-color: #fff;
+        padding: 30px 50px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        width: 600px;
+        height: 400px;
+        max-width: 100%;
+        text-align: center;
+      }
+
+      .modal-container.show {
+        pointer-events: auto;
+        opacity: 1;
+      }
+
+      #close {
+        margin-top: 310px;
+      }
+
+      #charbirth {
+        color: black;
+      }
+
+      #divide {
+        border: 5px solid white;
+        width: 200px;
+        height: 100px;
+        color: white;
+      }
+    </style>
+  </head>
+  <body style="background-color: black; overflow-y: hidden; overflow-x: hidden">
+    <div id="main">
+      <div class="logo">
+        <img
+          id="starwarsimg"
+          src="https://www.vectordiary.com/wp-content/uploads/2021/03/star-wars-logo-font.jpg"
+        />
+      </div>
+
+      <input
+        style="display: inline-block"
+        oninput="throttleFunction()"
+        type="text"
+        placeholder="&nbsp;&nbsp;Search Characters"
+        id="query"
+      />
+
+      <div id="movies"></div>
+      <div id="append"></div>
+    </div>
+  </body>
+</html>
+
+<script>
+  let movies_div = document.getElementById("movies");
+
+  var timerId;
+
+  async function searchMovies() {
+    let query = document.getElementById("query").value;
+
+    // if (query.length <= 2) {
+    //   return false;
+    // }
+
+    let res = await fetch(` https://swapi.dev/api/people/?search=${query}`);
+    let data = await res.json();
+    console.log(data);
+    return data.results;
+  }
+
+  function throttleFunction() {
+    if (timerId) {
+      return false;
+    }
+
+    timerId = setTimeout(() => {
+      console.log(timerId);
+      main();
+      timerId = undefined;
+    }, 500);
+  }
+
+  function appendMovies(d) {
+    movies_div.innerHTML = null;
+    d.forEach(({ name, birth_year, gender, eye_color, mass, hair_color }) => {
+      console.log(eye_color);
+      let div = document.createElement("div");
+      div.setAttribute("id", "divid");
+
+      let p = document.createElement("p");
+      p.innerText = name;
+      p.setAttribute("id", "charname");
+
+      p.addEventListener("click", function () {
+        window.location.href = "Starwar2.html";
+        localStorage = null;
+        {
+          localStorage.setItem("name", JSON.stringify(name));
+          localStorage.setItem("eye_color", JSON.stringify(eye_color));
+          localStorage.setItem("hair", JSON.stringify(hair_color));
+          localStorage.setItem("mass", JSON.stringify(mass));
+        }
+      });
+
+      let p_birth = document.createElement("p");
+      p_birth.setAttribute("id", "charname1");
+
+      div.append(p, p_birth);
+
+      movies_div.append(div);
+    });
+  }
+
+  async function main() {
+    let movies = await searchMovies();
+    appendMovies(movies);
+  }
+</script>
